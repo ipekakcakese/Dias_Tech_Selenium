@@ -1,4 +1,4 @@
-package testautomation.pages;
+package com.testautomation.pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,8 +11,8 @@ import java.time.Duration;
 import java.util.Set;
 
 public class ProductDetailPage {
-    private WebDriver driver;
-    private WebDriverWait wait;
+    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     @FindBy(xpath = "//button[@data-test-id='addToCart' and text()='Sepete ekle']")
     private WebElement addToCartButton;

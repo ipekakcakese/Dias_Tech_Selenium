@@ -1,4 +1,4 @@
-package testautomation.pages;
+package com.testautomation.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,8 +11,8 @@ import java.time.Duration;
 import java.util.List;
 
 public class TabletCategoryPage {
-    private WebDriver driver;
-    private WebDriverWait wait;
+    private final WebDriver driver;
+    private final WebDriverWait wait;
 
     private final By appleBrandLocator = By.xpath("//a[contains(@href, '/apple-tablet-xc-3008012-b8849')]//span[text()='Apple']");
     private final By screenSizeOptionLocator = By.xpath("//a[contains(@href, 'filtreler=ekranboyutu:13€2C2€20in€C3€A7')]//span[text()='13,2 inç']");

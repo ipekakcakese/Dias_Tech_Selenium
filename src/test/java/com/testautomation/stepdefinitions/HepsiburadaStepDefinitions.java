@@ -1,17 +1,18 @@
-package testautomation.stepdefinitions;
+package com.testautomation.stepdefinitions;
 
-
+import com.testautomation.pages.CartPage;
+import com.testautomation.pages.HomePage;
+import com.testautomation.pages.ProductDetailPage;
+import com.testautomation.pages.TabletCategoryPage;
+import com.testautomation.utils.ConfigReader;
+import io.cucumber.java.After;
+import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import testautomation.pages.CartPage;
-import testautomation.pages.HomePage;
-import testautomation.pages.ProductDetailPage;
-import testautomation.pages.TabletCategoryPage;
-
 import java.time.Duration;
 
 public class HepsiburadaStepDefinitions {
@@ -21,18 +22,27 @@ public class HepsiburadaStepDefinitions {
     private ProductDetailPage productDetailPage;
     private CartPage cartPage;
     private Double selectedProductPrice;
+    private String baseUrl;
 
-    @Given("The user navigates to the Hepsiburada homepage")
-    public void the_user_navigates_to_hepsiburada_homepage() {
+    @Before
+    public void setup() {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.manage().window().maximize();
-        driver.get("https://www.hepsiburada.com/");
+
+        ConfigReader.loadConfig("config.properties");
+        baseUrl = ConfigReader.getProperty("base.url", "https://www.hepsiburada.com/");
+        driver.get(baseUrl);
 
         homePage = new HomePage(driver);
         tabletCategoryPage = new TabletCategoryPage(driver);
         productDetailPage = new ProductDetailPage(driver);
         cartPage = new CartPage(driver);
+    }
+
+    @Given("The user navigates to the Hepsiburada homepage")
+    public void the_user_navigates_to_hepsiburada_homepage() {
+        driver.get(baseUrl);
     }
 
     @When("The user goes to the Tablet category")
@@ -60,6 +70,14 @@ public class HepsiburadaStepDefinitions {
     @Then("The user verifies that the product price matches the cart price")
     public void the_user_verifies_that_the_product_price_matches_the_cart_price() {
         cartPage.verifyPriceMatch(selectedProductPrice);
-        driver.quit();
     }
+
+    @After
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+
 }

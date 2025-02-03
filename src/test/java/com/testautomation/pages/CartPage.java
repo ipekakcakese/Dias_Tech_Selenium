@@ -1,4 +1,4 @@
-package testautomation.pages;
+package com.testautomation.pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -10,14 +10,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class CartPage {
-    private WebDriver driver;
-    private WebDriverWait wait;
+    private final WebDriverWait wait;
 
     @FindBy(id = "basket_payedPrice")
     private WebElement cartPrice;
 
     public CartPage(WebDriver driver) {
-        this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
     }

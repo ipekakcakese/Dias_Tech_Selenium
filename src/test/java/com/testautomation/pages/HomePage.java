@@ -1,4 +1,4 @@
-package testautomation.pages;
+package com.testautomation.pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,9 +11,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 public class HomePage {
-    private WebDriver driver;
-    private WebDriverWait wait;
-    private Actions actions;
+    private final WebDriverWait wait;
+    private final Actions actions;
 
     @FindBy(id = "onetrust-accept-btn-handler")
     private WebElement acceptCookie;
@@ -28,23 +27,24 @@ public class HomePage {
     private WebElement tabletCategory;
 
     public HomePage(WebDriver driver) {
-        this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
         this.actions = new Actions(driver);
         PageFactory.initElements(driver, this);
     }
 
     public void navigateToTabletCategory() {
-        acceptCookie.click();
-        try {
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        wait.until(ExpectedConditions.visibilityOf(electronicsCategory));
-        actions.moveToElement(electronicsCategory).perform();
-        wait.until(ExpectedConditions.visibilityOf(computerAndTabletCategory));
-        actions.moveToElement(computerAndTabletCategory).perform();
-        wait.until(ExpectedConditions.elementToBeClickable(tabletCategory)).click();
+        WebElement cookieButton = wait.until(ExpectedConditions.elementToBeClickable(acceptCookie));
+        cookieButton.click();
+        wait.until(ExpectedConditions.invisibilityOf(cookieButton));
+
+        WebElement electronics = wait.until(ExpectedConditions.visibilityOf(electronicsCategory));
+        actions.moveToElement(electronics).perform();
+
+        WebElement computerAndTablet = wait.until(ExpectedConditions.visibilityOf(computerAndTabletCategory));
+        actions.moveToElement(computerAndTablet).perform();
+
+        WebElement tablet = wait.until(ExpectedConditions.elementToBeClickable(tabletCategory));
+        tablet.click();
     }
+
 }
